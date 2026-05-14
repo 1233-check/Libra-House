@@ -125,21 +125,7 @@
 .toast { position: fixed; bottom: 32px; left: 50%; transform: translate(-50%, 100px); background: var(--black); color: var(--white); padding: 12px 24px; font-size: 0.8rem; z-index: 3000; transition: transform var(--transition-base); }
 .toast.visible { transform: translate(-50%, 0); }
 
-/* --- RESPONSIVE --- */
-@media (max-width: 1024px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; text-align: center; }
-  .hero-content { padding: 40px 24px; align-items: center; }
-  .hero-cta-row { justify-content: center; }
-  .hero-stats { justify-content: center; }
-  .about-grid { grid-template-columns: 1fr; }
-  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  .footer-top { grid-template-columns: 1fr 1fr; }
-  .modal-body { grid-template-columns: 1fr; }
-  .modal-img-col { display: none; }
-}
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-  .product-grid { grid-template-columns: 1fr; }
-  .footer-top { grid-template-columns: 1fr; text-align: center; }
-  .footer-bottom { flex-direction: column; gap: 16px; }
-}
+/* --- RESPONSIVE ---
+   All responsive styles have been moved to styles-responsive.css
+   for comprehensive Android & iOS device coverage */
+
