@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 </head>
 <body>
 
@@ -310,7 +311,7 @@
         <span id="cart-subtotal" class="animate-number">$0</span>
       </div>
       <p class="cart-note">Shipping & taxes calculated at checkout.</p>
-      <button class="btn btn-primary btn-full" id="checkout-btn">Checkout</button>
+      <button class="btn btn-primary btn-full" id="checkout-btn" onclick="initiateCheckout()">Checkout</button>
       <button class="btn btn-ghost btn-full cart-continue" id="continue-btn">Continue Shopping</button>
     </div>
   </aside>

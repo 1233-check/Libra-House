@@ -434,3 +434,139 @@ function preloadHeroImages() {
   accentImg.src = 'images/hero-model-2.png';
 }
 preloadHeroImages();
+
+// --- RAZORPAY CHECKOUT ---
+async function initiateCheckout() {
+  // Validate cart
+  if (state.cart.length === 0) {
+    showToast('Your bag is empty');
+    return;
+  }
+
+  const checkoutBtn = $('#checkout-btn');
+  const originalText = checkoutBtn.textContent;
+  checkoutBtn.textContent = 'Processing...';
+  checkoutBtn.disabled = true;
+
+  try {
+    // Calculate total in paise (₹ × 100)
+    const subtotal = state.cart.reduce((sum, c) => {
+      const p = getProduct(c.productId);
+      return sum + (p.price * c.quantity);
+    }, 0);
+    const amountInPaise = subtotal * 100;
+
+    // Prepare cart items for order record
+    const items = state.cart.map(c => {
+      const p = getProduct(c.productId);
+      return { id: p.id, name: p.name, price: p.price, quantity: c.quantity };
+    });
+
+    // Step 1: Create order on backend
+    const orderRes = await fetch('/api/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: amountInPaise,
+        currency: 'INR',
+        receipt: `libra_${Date.now()}`,
+        items,
+      }),
+    });
+
+    const orderData = await orderRes.json();
+
+    if (!orderData.success) {
+      throw new Error(orderData.error || 'Failed to create order');
+    }
+
+    // Step 2: Fetch public key from server
+    const keyRes = await fetch('/api/get-key');
+    const keyData = await keyRes.json();
+
+    // Step 3: Open Razorpay checkout modal
+    const options = {
+      key: keyData.key,
+      amount: orderData.amount,
+      currency: orderData.currency,
+      order_id: orderData.order_id,
+      name: 'Libra House',
+      description: `${state.cart.length} item${state.cart.length > 1 ? 's' : ''} — Spring/Summer 2026`,
+      image: 'images/bag-04.jpg',
+      theme: {
+        color: '#000000',
+        backdrop_color: 'rgba(0,0,0,0.6)',
+      },
+      handler: async function (response) {
+        // Step 4: Verify payment on backend
+        try {
+          const verifyRes = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            }),
+          });
+
+          const verifyData = await verifyRes.json();
+
+          if (verifyData.success) {
+            // Save order locally for quick access
+            localStorage.setItem('libra_last_order', JSON.stringify({
+              order_id: response.razorpay_order_id,
+              payment_id: response.razorpay_payment_id,
+              items,
+              amount: subtotal,
+              date: new Date().toISOString(),
+            }));
+
+            // Clear cart
+            state.cart = [];
+            renderCart();
+            renderProducts();
+            toggleDrawer(els.cartDrawer, els.cartOverlay, false);
+
+            showToast('Payment successful! Redirecting to order tracking...');
+
+            // Redirect to tracking page
+            setTimeout(() => {
+              window.location.href = `/tracking.html?order_id=${response.razorpay_order_id}`;
+            }, 1500);
+          } else {
+            showToast('Payment verification failed. Contact support.');
+          }
+        } catch (err) {
+          console.error('Verification error:', err);
+          showToast('Payment received but verification pending. Contact support.');
+        }
+      },
+      modal: {
+        ondismiss: function () {
+          showToast('Payment cancelled');
+          checkoutBtn.textContent = originalText;
+          checkoutBtn.disabled = false;
+        },
+      },
+      prefill: {},
+    };
+
+    const rzp = new Razorpay(options);
+
+    rzp.on('payment.failed', function (response) {
+      console.error('Payment failed:', response.error);
+      showToast(`Payment failed: ${response.error.description}`);
+      checkoutBtn.textContent = originalText;
+      checkoutBtn.disabled = false;
+    });
+
+    rzp.open();
+  } catch (error) {
+    console.error('Checkout error:', error);
+    showToast(error.message || 'Checkout failed. Please try again.');
+  } finally {
+    checkoutBtn.textContent = originalText;
+    checkoutBtn.disabled = false;
+  }
+}

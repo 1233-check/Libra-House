@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Order Tracking — Libra House</title>
+  <meta name="description" content="Track your Libra House order status and delivery progress.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* --- Tracking Page Specific --- */
+    .tracking-page {
+      min-height: 100vh;
+      background: var(--gray-50);
+      padding-top: 120px;
+    }
+    .tracking-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 var(--container-padding, 24px) 80px;
+    }
+    .tracking-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .tracking-header .section-eyebrow {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gray-500);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .tracking-header h1 {
+      font-family: var(--font-serif, 'Playfair Display', serif);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    /* Lookup form */
+    .tracking-lookup {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+    .tracking-lookup label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-500);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .tracking-input-row {
+      display: flex;
+      gap: 12px;
+    }
+    .tracking-input {
+      flex: 1;
+      padding: 14px 16px;
+      border: 1px solid var(--gray-200);
+      font-family: var(--font-sans, 'Inter', sans-serif);
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      transition: border-color 0.2s ease;
+    }
+    .tracking-input:focus {
+      outline: none;
+      border-color: var(--black);
+    }
+    .tracking-input::placeholder {
+      color: var(--gray-400);
+    }
+    .tracking-submit {
+      padding: 14px 28px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      font-family: var(--font-sans, 'Inter', sans-serif);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .tracking-submit:hover {
+      background: var(--gray-800);
+    }
+
+    /* Order card */
+    .order-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      display: none;
+    }
+    .order-card.visible {
+      display: block;
+      animation: fadeUp 0.6s ease forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .order-card-header {
+      padding: 28px 32px;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .order-id-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-500);
+      margin-bottom: 4px;
+    }
+    .order-id-value {
+      font-family: var(--font-sans, 'Inter', sans-serif);
+      font-size: 0.85rem;
+      font-weight: 500;
+      word-break: break-all;
+    }
+    .order-status-badge {
+      padding: 6px 16px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+      border-radius: 20px;
+    }
+    .order-status-badge.paid {
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #bbf7d0;
+    }
+    .order-status-badge.created {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fde68a;
+    }
+
+    /* Timeline */
+    .order-timeline {
+      padding: 32px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .timeline-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-500);
+      margin-bottom: 24px;
+    }
+    .timeline {
+      display: flex;
+      gap: 0;
+      position: relative;
+    }
+    .timeline-step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+    .timeline-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      margin: 0 auto 10px;
+      position: relative;
+      z-index: 2;
+      transition: all 0.4s ease;
+    }
+    .timeline-step.active .timeline-dot {
+      background: var(--black);
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
+    }
+    .timeline-step.completed .timeline-dot {
+      background: #16a34a;
+      box-shadow: 0 0 0 4px rgba(22,163,74,0.1);
+    }
+    .timeline-step .step-label {
+      font-size: 0.68rem;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: color 0.3s ease;
+    }
+    .timeline-step.active .step-label,
+    .timeline-step.completed .step-label {
+      color: var(--black);
+      font-weight: 500;
+    }
+    /* Connecting line between dots */
+    .timeline-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 7px;
+      left: calc(50% + 10px);
+      right: calc(-50% + 10px);
+      height: 2px;
+      background: var(--gray-200);
+      z-index: 1;
+    }
+    .timeline-step.completed:not(:last-child)::after {
+      background: #16a34a;
+    }
+
+    /* Order items */
+    .order-items {
+      padding: 28px 32px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .order-items-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-500);
+      margin-bottom: 16px;
+    }
+    .order-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-50);
+    }
+    .order-item-row:last-child {
+      border-bottom: none;
+    }
+    .order-item-name {
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+    .order-item-qty {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-left: 8px;
+    }
+    .order-item-price {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Order summary */
+    .order-summary {
+      padding: 28px 32px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 0.85rem;
+      color: var(--gray-600);
+    }
+    .summary-row.total {
+      border-top: 1px solid var(--gray-200);
+      margin-top: 8px;
+      padding-top: 16px;
+      font-weight: 500;
+      color: var(--black);
+      font-size: 1rem;
+    }
+    .summary-row .payment-id {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      word-break: break-all;
+    }
+
+    /* Error state */
+    .tracking-error {
+      text-align: center;
+      padding: 48px 24px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      display: none;
+    }
+    .tracking-error.visible {
+      display: block;
+      animation: fadeUp 0.6s ease forwards;
+    }
+    .tracking-error p {
+      color: var(--gray-500);
+      margin-bottom: 20px;
+    }
+    .tracking-error a {
+      color: var(--black);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Back link */
+    .tracking-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .tracking-back:hover {
+      color: var(--black);
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .tracking-page { padding-top: 80px; }
+      .tracking-container { padding: 0 16px 60px; }
+      .tracking-lookup { padding: 24px 20px; }
+      .tracking-input-row { flex-direction: column; }
+      .tracking-submit { width: 100%; }
+      .order-card-header { padding: 20px; }
+      .order-timeline { padding: 24px 20px; }
+      .order-items { padding: 20px; }
+      .order-summary { padding: 20px; }
+      .timeline-step .step-label { font-size: 0.6rem; }
+      .timeline-dot { width: 12px; height: 12px; }
+      .timeline-step:not(:last-child)::after { top: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR (simplified) -->
+  <nav class="navbar" id="navbar" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); top: 0;">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Libra House</a>
+      <a href="/" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gray-500); text-decoration:none;">← Back to Shop</a>
+    </div>
+  </nav>
+
+  <main class="tracking-page">
+    <div class="tracking-container">
+
+      <!-- Header -->
+      <div class="tracking-header">
+        <span class="section-eyebrow">Order Tracking</span>
+        <h1>Track Your Order</h1>
+      </div>
+
+      <!-- Lookup Form -->
+      <div class="tracking-lookup">
+        <label for="order-id-input">Enter your Order ID</label>
+        <div class="tracking-input-row">
+          <input type="text" id="order-id-input" class="tracking-input" placeholder="order_XXXXXXXXXX" />
+          <button class="tracking-submit" id="track-btn" onclick="lookupOrder()">Track</button>
+        </div>
+      </div>
+
+      <!-- Order Card (hidden until loaded) -->
+      <div class="order-card" id="order-card">
+        <div class="order-card-header">
+          <div>
+            <div class="order-id-label">Order ID</div>
+            <div class="order-id-value" id="display-order-id">—</div>
+          </div>
+          <span class="order-status-badge" id="display-status">—</span>
+        </div>
+
+        <div class="order-timeline">
+          <div class="timeline-title">Order Progress</div>
+          <div class="timeline" id="timeline">
+            <div class="timeline-step" id="step-placed">
+              <div class="timeline-dot"></div>
+              <span class="step-label">Placed</span>
+            </div>
+            <div class="timeline-step" id="step-confirmed">
+              <div class="timeline-dot"></div>
+              <span class="step-label">Confirmed</span>
+            </div>
+            <div class="timeline-step" id="step-shipped">
+              <div class="timeline-dot"></div>
+              <span class="step-label">Shipped</span>
+            </div>
+            <div class="timeline-step" id="step-delivered">
+              <div class="timeline-dot"></div>
+              <span class="step-label">Delivered</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-items" id="order-items">
+          <div class="order-items-title">Items</div>
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="order-summary" id="order-summary">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Error state -->
+      <div class="tracking-error" id="tracking-error">
+        <p>Order not found. Please check your Order ID and try again.</p>
+        <a href="/">Continue Shopping</a>
+      </div>
+
+      <a href="/" class="tracking-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to shop
+      </a>
+    </div>
+  </main>
+
+  <script>
+    const formatPrice = amount => `₹${amount.toLocaleString('en-IN')}`;
+
+    // Auto-load from URL params
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('order_id');
+      if (orderId) {
+        document.getElementById('order-id-input').value = orderId;
+        lookupOrder();
+      }
+    });
+
+    async function lookupOrder() {
+      const orderId = document.getElementById('order-id-input').value.trim();
+      if (!orderId) return;
+
+      const btn = document.getElementById('track-btn');
+      btn.textContent = 'Loading...';
+      btn.disabled = true;
+
+      // Hide previous results
+      document.getElementById('order-card').classList.remove('visible');
+      document.getElementById('tracking-error').classList.remove('visible');
+
+      try {
+        const res = await fetch(`/api/orders/${orderId}`);
+        const data = await res.json();
+
+        if (!data.success || !data.order) {
+          document.getElementById('tracking-error').classList.add('visible');
+          return;
+        }
+
+        renderOrder(data.order);
+      } catch (err) {
+        console.error('Tracking error:', err);
+        document.getElementById('tracking-error').classList.add('visible');
+      } finally {
+        btn.textContent = 'Track';
+        btn.disabled = false;
+      }
+    }
+
+    function renderOrder(order) {
+      // Order ID & Status
+      document.getElementById('display-order-id').textContent = order.order_id;
+      const badge = document.getElementById('display-status');
+      badge.textContent = order.status === 'paid' ? 'Paid' : 'Pending';
+      badge.className = `order-status-badge ${order.status}`;
+
+      // Timeline
+      const steps = ['step-placed', 'step-confirmed', 'step-shipped', 'step-delivered'];
+      const activeIndex = order.status === 'paid' ? 1 : 0; // Paid = confirmed
+      steps.forEach((id, i) => {
+        const el = document.getElementById(id);
+        el.classList.remove('active', 'completed');
+        if (i < activeIndex) el.classList.add('completed');
+        if (i === activeIndex) el.classList.add('active');
+      });
+
+      // Items
+      const itemsContainer = document.getElementById('order-items');
+      const itemsHtml = (order.items || []).map(item => `
+        <div class="order-item-row">
+          <div>
+            <span class="order-item-name">${item.name}</span>
+            <span class="order-item-qty">× ${item.quantity}</span>
+          </div>
+          <span class="order-item-price">${formatPrice(item.price * item.quantity)}</span>
+        </div>
+      `).join('');
+      itemsContainer.innerHTML = `<div class="order-items-title">Items</div>${itemsHtml}`;
+
+      // Summary
+      const total = order.amount / 100; // Convert from paise
+      const summaryContainer = document.getElementById('order-summary');
+      summaryContainer.innerHTML = `
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>${formatPrice(total)}</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>Free</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>${formatPrice(total)}</span>
+        </div>
+        ${order.payment_id ? `
+        <div class="summary-row" style="margin-top: 16px;">
+          <span>Payment ID</span>
+          <span class="payment-id">${order.payment_id}</span>
+        </div>` : ''}
+        ${order.paid_at ? `
+        <div class="summary-row">
+          <span>Paid on</span>
+          <span>${new Date(order.paid_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+        </div>` : ''}
+      `;
+
+      // Show card
+      document.getElementById('order-card').classList.add('visible');
+    }
+  </script>
+</body>
+</html>
