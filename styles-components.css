@@ -36,9 +36,12 @@
 .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 28px; }
 .product-card { cursor: pointer; position: relative; }
 .product-card-img { position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--gray-100); }
-.product-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-slow); }
-.product-card:hover .product-card-img img { transform: scale(1.05); }
-.product-quick-view { position: absolute; inset: 0; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-base); }
+.product-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-slow), opacity var(--transition-base); }
+.product-img-primary { position: relative; z-index: 1; }
+.product-img-model { position: absolute; inset: 0; z-index: 2; opacity: 0; }
+.product-card:hover .product-img-primary { transform: scale(1.02); }
+.product-card:hover .product-img-model { opacity: 1; transform: scale(1.02); }
+.product-quick-view { position: absolute; inset: 0; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-base); z-index: 3; }
 .product-card:hover .product-quick-view { opacity: 1; }
 .product-quick-view span { background: var(--white); padding: 12px 24px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; transform: translateY(10px); transition: transform var(--transition-base); }
 .product-card:hover .product-quick-view span { transform: translateY(0); }
@@ -124,6 +127,24 @@
 .back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
 .toast { position: fixed; bottom: 32px; left: 50%; transform: translate(-50%, 100px); background: var(--black); color: var(--white); padding: 12px 24px; font-size: 0.8rem; z-index: 3000; transition: transform var(--transition-base); }
 .toast.visible { transform: translate(-50%, 0); }
+
+
+/* --- IMMERSIVE SCROLL SECTIONS --- */
+.about, .collection, .newsletter { position: relative; }
+.section-reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.section-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Parallax image effect for about section */
+.about-img-1, .about-img-2 {
+  transition: transform 0.3s ease-out;
+}
 
 /* --- RESPONSIVE ---
    All responsive styles have been moved to styles-responsive.css

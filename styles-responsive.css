@@ -12,6 +12,36 @@
    ============================================ */
 
 /* ============================================
+   CUSTOM CURSOR (desktop only)
+   ============================================ */
+.cursor-dot {
+  position: fixed;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  background: var(--white);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: opacity 0.2s ease;
+}
+.cursor-ring {
+  position: fixed;
+  top: -20px;
+  left: -20px;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: difference;
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+}
+
+/* ============================================
    SAFE AREAS — iPhone notch + Android cutouts
    ============================================ */
 @supports (padding: env(safe-area-inset-top)) {
@@ -38,7 +68,6 @@
    TOUCH OPTIMIZATIONS (all mobile)
    ============================================ */
 @media (hover: none) and (pointer: coarse) {
-  /* Bigger touch targets — minimum 44px per Apple/Google guidelines */
   .btn {
     min-height: 48px;
     padding: 14px 28px;
@@ -60,13 +89,9 @@
     min-height: 44px;
     padding: 10px 36px 10px 16px;
   }
-
-  /* Show wishlist btn always on touch devices (no hover state) */
   .wishlist-btn {
     opacity: 1 !important;
   }
-
-  /* Show quick-view always on touch (no hover) */
   .product-quick-view {
     opacity: 1 !important;
     background: rgba(0, 0, 0, 0.15) !important;
@@ -74,13 +99,9 @@
   .product-quick-view span {
     transform: translateY(0) !important;
   }
-
-  /* Remove hover-based image zoom on touch */
   .product-card:hover .product-card-img img {
     transform: none;
   }
-
-  /* Active states instead of hover */
   .product-card:active .product-card-img img {
     transform: scale(1.02);
   }
@@ -93,24 +114,23 @@
     color: var(--white);
     border-color: var(--black);
   }
+  /* Hide cursor on touch devices */
+  .cursor-dot, .cursor-ring {
+    display: none !important;
+  }
 }
 
 /* ============================================
    TABLETS LANDSCAPE — 1024px–1439px
-   (iPad Pro landscape, Galaxy Tab S landscape)
    ============================================ */
 @media (max-width: 1439px) {
   :root {
     --container-padding: 32px;
   }
-  .hero-content {
-    padding: 50px 60px;
-  }
-  .hero-visual {
-    padding: 40px;
-  }
-  .hero-img-wrapper {
-    max-width: 460px;
+  .hero-accent {
+    width: 180px;
+    height: 230px;
+    right: 4%;
   }
   .about {
     padding: 100px 0;
@@ -122,7 +142,6 @@
 
 /* ============================================
    TABLETS PORTRAIT — 768px–1023px
-   (iPad, iPad Mini, Galaxy Tab, Pixel Tablet)
    ============================================ */
 @media (max-width: 1024px) {
   :root {
@@ -130,39 +149,24 @@
     --container-padding: 24px;
   }
 
-  /* HERO — stack vertically */
-  .hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    text-align: center;
+  /* HERO */
+  .hero-headline {
+    font-size: clamp(3rem, 7vw, 5rem);
+  }
+  .hero-accent {
+    width: 160px;
+    height: 200px;
+    right: 3%;
+    bottom: 8%;
+  }
+  .hero-proof {
+    gap: 24px;
+  }
+  .proof-num {
+    font-size: 1.6rem;
   }
   .hero-content {
-    padding: 40px 32px 24px;
-    align-items: center;
-    order: 2;
-  }
-  .hero-visual {
-    order: 1;
-    padding: 24px 32px;
-    min-height: 50vh;
-  }
-  .hero-img-wrapper {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  .hero-cta-row {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .hero-stats {
-    justify-content: center;
-  }
-  .hero-sub {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero-scroll-hint {
-    display: none;
+    padding: 100px var(--container-padding) 60px;
   }
 
   /* ABOUT */
@@ -184,13 +188,13 @@
     max-width: 400px;
   }
 
-  /* PRODUCTS — 2 columns */
+  /* PRODUCTS */
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px 20px;
   }
 
-  /* MODAL — fullscreen on tablets */
+  /* MODAL */
   .modal {
     width: 95vw;
     max-height: 90vh;
@@ -215,8 +219,6 @@
 
 /* ============================================
    LARGE PHONES — 480px–767px
-   (iPhone 14/15 Pro Max, Galaxy S Ultra,
-    Pixel 8 Pro, OnePlus landscape)
    ============================================ */
 @media (max-width: 767px) {
   :root {
@@ -247,45 +249,56 @@
     gap: 8px;
   }
 
-  /* HERO */
-  .hero {
-    padding-top: calc(var(--nav-height) + 28px);
-  }
-  .hero-content {
-    padding: 24px 20px 16px;
-  }
+  /* HERO — immersive mobile */
   .hero-headline {
-    font-size: clamp(2.2rem, 10vw, 3.5rem);
+    font-size: clamp(2.5rem, 11vw, 4rem);
     margin-bottom: 16px;
   }
   .hero-sub {
     font-size: 0.9rem;
     margin-bottom: 28px;
+    max-width: 100%;
+  }
+  .hero-content {
+    padding: 100px var(--container-padding) 60px;
+    text-align: center;
+    align-items: center;
+  }
+  .hero-label {
+    justify-content: center;
   }
   .hero-cta-row {
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 16px;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
   }
   .hero-cta-row .btn {
     padding: 12px 24px;
     font-size: 0.72rem;
   }
-  .hero-visual {
-    padding: 16px 20px 24px;
-    min-height: 40vh;
+  .hero-accent {
+    width: 120px;
+    height: 150px;
+    right: 16px;
+    bottom: 80px;
+    border-width: 1px;
   }
-  .hero-img-wrapper {
-    max-width: 320px;
+  .hero-proof {
+    justify-content: center;
+    gap: 20px;
   }
-  .hero-img-overlay {
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    padding: 12px;
-    font-size: 0.8rem;
+  .proof-num {
+    font-size: 1.5rem;
   }
-  .hero-floating-tag {
-    font-size: 0.7rem;
+  .proof-label {
+    font-size: 0.6rem;
+  }
+  .hero-proof-divider {
+    height: 24px;
+  }
+  .hero-bg-img {
+    object-position: center center;
   }
 
   /* MARQUEE */
@@ -342,7 +355,7 @@
     display: block;
   }
 
-  /* PRODUCT GRID — single column on phones */
+  /* PRODUCT GRID */
   .product-grid {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -357,13 +370,10 @@
     font-size: 0.85rem;
   }
 
-  /* MODAL — fullscreen on phones */
+  /* MODAL — fullscreen */
   .modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     width: 100%;
     max-width: 100vw;
     max-height: 100vh;
@@ -385,15 +395,11 @@
     grid-template-columns: 1fr;
   }
   .modal-close {
-    top: 12px;
-    right: 12px;
+    top: 12px; right: 12px;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
     padding: 0;
   }
   .modal-img-col {
@@ -405,57 +411,24 @@
   .modal-info-col {
     padding: 24px 20px 40px;
   }
-  .modal-name {
-    font-size: 1.5rem;
-  }
-  .modal-price {
-    font-size: 1.1rem;
-    margin-bottom: 16px;
-  }
-  .modal-desc {
-    font-size: 0.85rem;
-    margin-bottom: 28px;
-  }
-  .modal-actions {
-    flex-direction: row;
-    gap: 12px;
-  }
-  .modal-actions .btn {
-    padding: 14px 20px;
-    font-size: 0.7rem;
-  }
+  .modal-name { font-size: 1.5rem; }
+  .modal-price { font-size: 1.1rem; margin-bottom: 16px; }
+  .modal-desc { font-size: 0.85rem; margin-bottom: 28px; }
+  .modal-actions { flex-direction: row; gap: 12px; }
+  .modal-actions .btn { padding: 14px 20px; font-size: 0.7rem; }
 
   /* CART DRAWER — full width */
-  .cart-drawer {
-    width: 100vw;
-  }
-  .cart-header {
-    padding: 16px 20px;
-  }
-  .cart-progress-bar {
-    padding: 16px 20px;
-  }
-  .cart-item {
-    padding: 16px 20px;
-  }
-  .cart-footer {
-    padding: 20px;
-  }
-  .cart-item-name {
-    font-size: 0.85rem;
-  }
+  .cart-drawer { width: 100vw; }
+  .cart-header { padding: 16px 20px; }
+  .cart-progress-bar { padding: 16px 20px; }
+  .cart-item { padding: 16px 20px; }
+  .cart-footer { padding: 20px; }
+  .cart-item-name { font-size: 0.85rem; }
 
   /* NEWSLETTER */
-  .newsletter {
-    padding: 60px 0;
-  }
-  .newsletter-text {
-    font-size: 0.9rem;
-    margin-bottom: 28px;
-  }
-  .newsletter-form {
-    max-width: 100%;
-  }
+  .newsletter { padding: 60px 0; }
+  .newsletter-text { font-size: 0.9rem; margin-bottom: 28px; }
+  .newsletter-form { max-width: 100%; }
   .input-group {
     flex-direction: column;
     border-bottom: none;
@@ -475,23 +448,12 @@
   }
 
   /* FOOTER */
-  .footer {
-    padding: 50px 0 30px;
-  }
+  .footer { padding: 50px 0 30px; }
   .footer-top {
     grid-template-columns: 1fr;
     text-align: center;
     gap: 28px;
     margin-bottom: 40px;
-  }
-  .footer-brand {
-    margin-bottom: 8px;
-  }
-  .footer-heading {
-    margin-bottom: 16px;
-  }
-  .footer-col a {
-    margin-bottom: 10px;
   }
   .footer-bottom {
     flex-direction: column;
@@ -504,28 +466,18 @@
   }
 
   /* UTILS */
-  .back-to-top {
-    width: 44px;
-    height: 44px;
-    bottom: 24px;
-    right: 20px;
-  }
+  .back-to-top { width: 44px; height: 44px; bottom: 24px; right: 20px; }
   .toast {
-    left: 20px;
-    right: 20px;
+    left: 20px; right: 20px;
     transform: translateY(100px);
     text-align: center;
     max-width: none;
   }
-  .toast.visible {
-    transform: translateY(0);
-  }
+  .toast.visible { transform: translateY(0); }
 }
 
 /* ============================================
    STANDARD PHONES — 376px–479px
-   (iPhone 12/13/14/15, Galaxy S22/S23,
-    Pixel 7/8, OnePlus, Xiaomi, Realme)
    ============================================ */
 @media (max-width: 479px) {
   :root {
@@ -533,7 +485,7 @@
   }
 
   .hero-headline {
-    font-size: clamp(2rem, 11vw, 2.8rem);
+    font-size: clamp(2rem, 12vw, 3rem);
   }
   .hero-sub {
     font-size: 0.85rem;
@@ -549,21 +501,22 @@
     text-align: center;
     justify-content: center;
   }
-  .hero-visual {
-    min-height: 35vh;
-    padding: 12px 16px 20px;
+  .hero-accent {
+    width: 100px;
+    height: 130px;
+    right: 12px;
+    bottom: 70px;
   }
-  .hero-img-wrapper {
-    max-width: 280px;
+  .hero-proof {
+    gap: 16px;
+  }
+  .proof-num {
+    font-size: 1.3rem;
   }
 
   /* ABOUT */
-  .about {
-    padding: 48px 0;
-  }
-  .about-img-stack {
-    max-width: 100%;
-  }
+  .about { padding: 48px 0; }
+  .about-img-stack { max-width: 100%; }
   .about-feature {
     flex-direction: column;
     text-align: center;
@@ -572,61 +525,26 @@
   }
 
   /* COLLECTION */
-  .collection {
-    padding: 48px 0 64px;
-  }
-  .product-grid {
-    gap: 24px;
-  }
-  .product-card-info {
-    padding: 12px 0;
-  }
-  .product-name {
-    font-size: 0.95rem;
-  }
+  .collection { padding: 48px 0 64px; }
+  .product-grid { gap: 24px; }
+  .product-card-info { padding: 12px 0; }
+  .product-name { font-size: 0.95rem; }
 
   /* MODAL */
-  .modal-img-col {
-    max-height: 45vh;
-    max-height: 45dvh;
-  }
-  .modal-info-col {
-    padding: 20px 16px 32px;
-  }
-  .modal-name {
-    font-size: 1.3rem;
-  }
-  .modal-desc {
-    font-size: 0.82rem;
-    line-height: 1.7;
-    margin-bottom: 24px;
-  }
-  .modal-actions .btn {
-    padding: 12px 16px;
-    font-size: 0.68rem;
-  }
-  .modal-meta {
-    font-size: 0.7rem;
-  }
+  .modal-img-col { max-height: 45vh; max-height: 45dvh; }
+  .modal-info-col { padding: 20px 16px 32px; }
+  .modal-name { font-size: 1.3rem; }
+  .modal-desc { font-size: 0.82rem; line-height: 1.7; margin-bottom: 24px; }
+  .modal-actions .btn { padding: 12px 16px; font-size: 0.68rem; }
+  .modal-meta { font-size: 0.7rem; }
 
-  /* NEWSLETTER */
-  .newsletter {
-    padding: 48px 0;
-  }
-
-  /* Section titles */
-  .section-title-lg {
-    font-size: clamp(1.5rem, 7vw, 2rem);
-  }
-  .section-eyebrow {
-    font-size: 0.65rem;
-  }
+  .newsletter { padding: 48px 0; }
+  .section-title-lg { font-size: clamp(1.5rem, 7vw, 2rem); }
+  .section-eyebrow { font-size: 0.65rem; }
 }
 
 /* ============================================
    SMALL PHONES — 320px–375px
-   (iPhone SE, Galaxy A series, budget Androids,
-    older iPhones, Redmi)
    ============================================ */
 @media (max-width: 375px) {
   :root {
@@ -634,410 +552,197 @@
     --nav-height: 56px;
   }
 
-  .ticker {
-    font-size: 0.55rem;
-    padding: 5px 0;
-  }
-  .navbar {
-    top: 24px;
-  }
-  .nav-logo {
-    font-size: 1.1rem;
-  }
-  .nav-icon-btn {
-    width: 40px;
-    height: 40px;
-  }
-  .nav-icon-badge {
-    min-width: 16px;
-    height: 16px;
-    font-size: 0.6rem;
-  }
+  .ticker { font-size: 0.55rem; padding: 5px 0; }
+  .navbar { top: 24px; }
+  .nav-logo { font-size: 1.1rem; }
+  .nav-icon-btn { width: 40px; height: 40px; }
+  .nav-icon-badge { min-width: 16px; height: 16px; font-size: 0.6rem; }
 
-  .hero {
-    padding-top: calc(var(--nav-height) + 24px);
-  }
-  .hero-content {
-    padding: 16px 14px 12px;
-  }
   .hero-headline {
-    font-size: clamp(1.8rem, 12vw, 2.4rem);
+    font-size: clamp(1.8rem, 13vw, 2.5rem);
     margin-bottom: 12px;
   }
-  .hero-sub {
-    font-size: 0.8rem;
-    margin-bottom: 20px;
-  }
-  .hero-cta-row .btn {
-    padding: 12px 20px;
-    font-size: 0.68rem;
-  }
-  .hero-visual {
-    min-height: 32vh;
-    padding: 8px 14px 16px;
-  }
-  .hero-img-wrapper {
-    max-width: 240px;
-  }
-  .hero-img-overlay {
-    font-size: 0.7rem;
-    padding: 10px;
-    bottom: 8px;
-    left: 8px;
-    right: 8px;
-  }
+  .hero-sub { font-size: 0.8rem; margin-bottom: 20px; }
+  .hero-cta-row .btn { padding: 12px 20px; font-size: 0.68rem; }
+  .hero-accent { display: none; }
+  .hero-proof { gap: 12px; }
+  .proof-num { font-size: 1.1rem; }
+  .proof-label { font-size: 0.55rem; }
 
-  .marquee-divider {
-    font-size: 0.85rem;
-  }
+  .marquee-divider { font-size: 0.85rem; }
 
-  .about {
-    padding: 36px 0;
-  }
-  .about-text {
-    font-size: 0.88rem;
-    line-height: 1.7;
-  }
-  .about-features {
-    padding-top: 20px;
-    gap: 16px;
-  }
+  .about { padding: 36px 0; }
+  .about-text { font-size: 0.88rem; line-height: 1.7; }
+  .about-features { padding-top: 20px; gap: 16px; }
 
-  .collection {
-    padding: 36px 0 48px;
-  }
-  .section-header {
-    margin-bottom: 24px;
-  }
-  .filter-tabs {
-    gap: 6px;
-  }
-  .filter-tab {
-    font-size: 0.65rem;
-    padding: 7px 10px;
-  }
-  .sort-select {
-    font-size: 0.7rem;
-  }
-  .product-grid {
-    gap: 20px;
-  }
+  .collection { padding: 36px 0 48px; }
+  .section-header { margin-bottom: 24px; }
+  .filter-tabs { gap: 6px; }
+  .filter-tab { font-size: 0.65rem; padding: 7px 10px; }
+  .sort-select { font-size: 0.7rem; }
+  .product-grid { gap: 20px; }
 
-  .modal-name {
-    font-size: 1.15rem;
-  }
-  .modal-price {
-    font-size: 1rem;
-  }
-  .modal-desc {
-    font-size: 0.78rem;
-  }
+  .modal-name { font-size: 1.15rem; }
+  .modal-price { font-size: 1rem; }
+  .modal-desc { font-size: 0.78rem; }
 
-  /* Cart */
-  .cart-title {
-    font-size: 1.1rem;
-  }
-  .cart-item-name {
-    font-size: 0.8rem;
-  }
-  .cart-item-price {
-    font-size: 0.78rem;
-  }
-  .cart-footer .btn {
-    padding: 12px;
-    font-size: 0.72rem;
-  }
+  .cart-title { font-size: 1.1rem; }
+  .cart-item-name { font-size: 0.8rem; }
+  .cart-item-price { font-size: 0.78rem; }
+  .cart-footer .btn { padding: 12px; font-size: 0.72rem; }
 
-  /* Newsletter */
-  .newsletter {
-    padding: 36px 0;
-  }
-  .newsletter-text {
-    font-size: 0.85rem;
-  }
+  .newsletter { padding: 36px 0; }
+  .newsletter-text { font-size: 0.85rem; }
+  .section-title-lg { font-size: clamp(1.3rem, 8vw, 1.7rem); }
 
-  .section-title-lg {
-    font-size: clamp(1.3rem, 8vw, 1.7rem);
-  }
-
-  .footer {
-    padding: 36px 0 24px;
-  }
-  .footer-logo {
-    font-size: 1.2rem;
-  }
-  .footer-heading {
-    font-size: 0.72rem;
-    margin-bottom: 12px;
-  }
-  .footer-col a {
-    font-size: 0.8rem;
-  }
+  .footer { padding: 36px 0 24px; }
+  .footer-logo { font-size: 1.2rem; }
+  .footer-heading { font-size: 0.72rem; margin-bottom: 12px; }
+  .footer-col a { font-size: 0.8rem; }
 }
 
 /* ============================================
    EXTRA SMALL — Under 320px
-   (Very old phones, ultra-budget devices)
    ============================================ */
 @media (max-width: 320px) {
-  :root {
-    --container-padding: 12px;
-  }
-  .hero-headline {
-    font-size: 1.6rem;
-  }
-  .hero-sub {
-    font-size: 0.75rem;
-  }
-  .btn {
-    padding: 10px 16px;
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-  }
-  .product-card-info {
-    padding: 8px 0;
-  }
-  .product-name {
-    font-size: 0.85rem;
-  }
-  .product-price {
-    font-size: 0.78rem;
-  }
-  .filter-tab {
-    font-size: 0.6rem;
-    padding: 6px 8px;
-  }
+  :root { --container-padding: 12px; }
+  .hero-headline { font-size: 1.6rem; }
+  .hero-sub { font-size: 0.75rem; }
+  .btn { padding: 10px 16px; font-size: 0.65rem; letter-spacing: 0.08em; }
+  .product-card-info { padding: 8px 0; }
+  .product-name { font-size: 0.85rem; }
+  .product-price { font-size: 0.78rem; }
+  .filter-tab { font-size: 0.6rem; padding: 6px 8px; }
+  .hero-accent { display: none; }
+  .hero-proof { display: none; }
 }
 
 /* ============================================
-   LANDSCAPE MODE — phones in landscape
-   (Critical for Android & many iOS interactions)
+   LANDSCAPE MODE — phones
    ============================================ */
 @media (max-height: 500px) and (orientation: landscape) {
   .hero {
-    min-height: auto;
-    grid-template-columns: 1fr 1fr;
-    text-align: left;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
   .hero-content {
-    padding: 20px 24px;
+    padding: 80px var(--container-padding) 40px;
+    text-align: left;
     align-items: flex-start;
-    justify-content: center;
   }
   .hero-headline {
-    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
     margin-bottom: 8px;
   }
-  .hero-sub {
-    font-size: 0.8rem;
-    margin-bottom: 16px;
-  }
+  .hero-sub { font-size: 0.8rem; margin-bottom: 16px; }
   .hero-cta-row {
     flex-direction: row;
     gap: 12px;
-    margin-bottom: 0;
+    margin-bottom: 16px;
+    justify-content: flex-start;
   }
-  .hero-cta-row .btn {
-    width: auto;
-    padding: 10px 20px;
-    font-size: 0.68rem;
-  }
-  .hero-visual {
-    min-height: auto;
-    padding: 16px;
-  }
-  .hero-img-wrapper {
-    max-width: 200px;
-    max-height: 60vh;
-  }
-  .hero-scroll-hint {
-    display: none;
-  }
+  .hero-cta-row .btn { width: auto; padding: 10px 20px; font-size: 0.68rem; }
+  .hero-accent { display: none; }
+  .hero-proof { gap: 16px; }
+  .proof-num { font-size: 1.2rem; }
+  .hero-scroll-hint { display: none; }
+  .hero-label { justify-content: flex-start; }
 
-  .navbar {
-    top: 0 !important;
-  }
-  .ticker {
-    display: none;
-  }
+  .navbar { top: 0 !important; }
+  .ticker { display: none; }
 
   .product-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 16px;
   }
 
-  /* Modal in landscape */
-  .modal-body {
-    grid-template-columns: 1fr 1fr;
-  }
-  .modal-img-col {
-    display: block;
-    max-height: 100vh;
-    max-height: 100dvh;
-  }
-  .modal-info-col {
-    padding: 16px;
-    overflow-y: auto;
-  }
+  .modal-body { grid-template-columns: 1fr 1fr; }
+  .modal-img-col { display: block; max-height: 100vh; max-height: 100dvh; }
+  .modal-info-col { padding: 16px; overflow-y: auto; }
 }
 
 /* ============================================
    TABLET LANDSCAPE (iPads, Galaxy Tabs)
    ============================================ */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  .hero {
-    grid-template-columns: 1fr 1fr;
-    text-align: left;
-  }
   .hero-content {
+    text-align: left;
     align-items: flex-start;
-    padding: 40px 32px;
   }
-  .hero-visual {
-    padding: 32px;
-  }
-  .hero-cta-row {
-    justify-content: flex-start;
-  }
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-  .modal-body {
-    grid-template-columns: 1fr 1fr;
-  }
-  .modal-img-col {
-    display: block;
-  }
+  .hero-label { justify-content: flex-start; }
+  .hero-cta-row { justify-content: flex-start; }
+  .product-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .modal-body { grid-template-columns: 1fr 1fr; }
+  .modal-img-col { display: block; }
 }
 
 /* ============================================
    HIGH DPI / RETINA DISPLAYS
-   (iPhone Retina, Samsung AMOLED, etc.)
    ============================================ */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  /* Thinner borders on high-DPI screens */
-  .product-card-img {
-    border: 0.5px solid var(--gray-100);
-  }
-  .cart-item {
-    border-bottom: 0.5px solid var(--gray-100);
-  }
+  .product-card-img { border: 0.5px solid var(--gray-100); }
+  .cart-item { border-bottom: 0.5px solid var(--gray-100); }
 }
 
 /* ============================================
    PREFERS REDUCED MOTION
-   (Accessibility: Android & iOS settings)
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .fade-up,
-  .fade-in {
+  .fade-up, .fade-in, .section-reveal {
     opacity: 1 !important;
     transform: none !important;
   }
-  .ticker-track,
-  .marquee-track {
+  .ticker-track, .marquee-track {
     animation: none !important;
   }
-}
-
-/* ============================================
-   DARK MODE SUPPORT
-   (Android & iOS system dark mode)
-   ============================================ */
-@media (prefers-color-scheme: dark) {
-  /* 
-     Uncomment below to enable automatic dark mode.
-     Currently kept as a reference for future use.
-  */
-  /*
-  :root {
-    --black: #ffffff;
-    --white: #0a0a0a;
-    --gray-50: #171717;
-    --gray-100: #1a1a1a;
-    --gray-200: #2a2a2a;
-    --gray-300: #3a3a3a;
-    --gray-400: #666;
-    --gray-500: #888;
-    --gray-600: #aaa;
-    --gray-700: #ccc;
-    --gray-800: #ddd;
-    --gray-900: #eee;
+  .hero.loaded .hero-bg-img {
+    transform: none !important;
+    transition: none !important;
   }
-  */
+  .headline-word {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ============================================
    TWO-COLUMN GRID FOR MID-PHONES (480-767)
-   Better use of space on larger phones
    ============================================ */
 @media (min-width: 480px) and (max-width: 767px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px 12px;
   }
-  .product-card-img {
-    aspect-ratio: 3/4;
-  }
-  .product-name {
-    font-size: 0.88rem;
-  }
-  .product-price {
-    font-size: 0.8rem;
-  }
-  .product-card-info {
-    padding: 10px 0;
-  }
+  .product-card-img { aspect-ratio: 3/4; }
+  .product-name { font-size: 0.88rem; }
+  .product-price { font-size: 0.8rem; }
+  .product-card-info { padding: 10px 0; }
 }
 
 /* ============================================
-   FOLDABLE DEVICES
-   (Galaxy Fold, Pixel Fold)
+   FOLDABLE DEVICES (Galaxy Fold, Pixel Fold)
    ============================================ */
 @media (min-width: 280px) and (max-width: 320px) {
-  /* Galaxy Fold in folded mode */
-  .hero-cta-row {
-    flex-direction: column;
-    gap: 8px;
-  }
-  .filter-tabs {
-    flex-wrap: wrap;
-  }
-  .hero-img-wrapper {
-    max-width: 200px;
-  }
+  .hero-cta-row { flex-direction: column; gap: 8px; }
+  .filter-tabs { flex-wrap: wrap; }
 }
 
 /* ============================================
-   SMOOTH SCROLL SNAPPING (optional enhancement)
+   MOBILE SCROLL OPTIMIZATIONS
    ============================================ */
 @media (max-width: 767px) {
-  /* Prevent elastic overscroll on iOS */
   html {
     overscroll-behavior: none;
-  }
-
-  /* Prevent text size adjustment on orientation change */
-  html {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
-
-  /* Prevent tap highlight on Android */
-  * {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* Smooth scrolling for cart/wishlist drawers */
+  * { -webkit-tap-highlight-color: transparent; }
   .cart-items {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;

@@ -3,21 +3,21 @@
    ============================================ */
 
 const PRODUCTS = [
-  { id: 1, name: 'The Sage Intrecciato', price: 3800, image_url: 'images/bag-01.jpg', inventory_count: 4, desc: 'A masterclass in woven leather. The Sage Intrecciato features an unstructured hobo silhouette, perfectly slouchy yet incredibly refined. Crafted from supple lambskin.' },
-  { id: 2, name: 'The Rose Bucket', price: 2900, image_url: 'images/bag-02.jpg', inventory_count: 4, desc: 'A sculptural take on the classic bucket bag. Minimalist lines meet a rich rose hue, complete with a tonal leather interior and subtle silver hardware.' },
-  { id: 3, name: 'The Petal Shoulder', price: 1950, image_url: 'images/bag-03.jpg', inventory_count: 4, desc: 'Lightweight and elegant. The Petal Shoulder bag features a soft fabric body with leather trim, ideal for everyday effortless style.' },
-  { id: 4, name: 'The Dune Mini', price: 3999, image_url: 'images/bag-04.jpg', inventory_count: 4, desc: 'The crown jewel of the collection. The Dune Mini is distinguished by its striking gold-tone sculptural handle, contrasting beautifully with the soft beige leather.' },
-  { id: 5, name: 'The Cognac Croissant', price: 3200, image_url: 'images/bag-05.jpg', inventory_count: 4, desc: 'Rich, buttery leather folded into an organic crescent shape. The Cognac Croissant is spacious, versatile, and instantly iconic.' },
-  { id: 6, name: 'The Citrine Perle', price: 3600, image_url: 'images/bag-06.jpg', inventory_count: 4, desc: 'Woven leather meets artisanal beadwork. The Citrine Perle features a statement handle made of oversized resin pearls.' },
-  { id: 7, name: 'The Tartan Bead', price: 2400, image_url: 'images/bag-07.jpg', inventory_count: 4, desc: 'A playful yet sophisticated piece. Woven tartan fabric with a distinctive beaded handle and delicate chain strap.' },
-  { id: 8, name: 'The Onyx Crescent', price: 3100, image_url: 'images/bag-08.jpg', inventory_count: 4, desc: 'The ultimate little black bag. A sleek crescent shape crafted from crinkled patent leather for a subtle, mysterious shine.' },
-  { id: 9, name: 'The Azure Charm', price: 2800, image_url: 'images/bag-09.jpg', inventory_count: 4, desc: 'Soft azure suede elevated by contrasting burgundy leather trim and a signature knot detail.' },
-  { id: 10, name: 'The Blush Tartan', price: 2400, image_url: 'images/bag-10.jpg', inventory_count: 4, desc: 'A softer take on our beaded handle design. Features a muted blush and grey tartan weave.' },
-  { id: 11, name: 'The Graphite Tote', price: 1900, image_url: 'images/bag-11.jpg', inventory_count: 4, desc: 'Minimalist utility. A spacious tote crafted from durable technical fabric with structured leather handles and subtle stud details.' },
-  { id: 12, name: 'The Buttercream Shoulder', price: 2100, image_url: 'images/bag-12.jpg', inventory_count: 4, desc: 'Clean, simple, and elegant. A classic 90s-inspired shoulder bag silhouette in smooth buttercream leather.' },
-  { id: 13, name: 'The Noir Buckle', price: 3400, image_url: 'images/bag-13.jpg', inventory_count: 4, desc: 'Edgy yet elevated. A slouchy hobo shape grounded by an oversized, statement silver buckle.' },
-  { id: 14, name: 'The Ivory Whipstitch', price: 2950, image_url: 'images/bag-14.jpg', inventory_count: 4, desc: 'Textured ivory leather featuring beautiful artisanal whipstitch detailing along the edges.' },
-  { id: 15, name: 'The Midnight Frame', price: 2200, image_url: 'images/bag-15.jpg', inventory_count: 4, desc: 'A minimalist masterpiece. Sleek black technical fabric framed by a thin leather strap and metallic clasp.' }
+  { id: 1, name: 'The Sage Intrecciato', price: 3800, image_url: 'images/bag-01.jpg', model_image_url: 'images/model-01.png', inventory_count: 4, desc: 'A masterclass in woven leather. The Sage Intrecciato features an unstructured hobo silhouette, perfectly slouchy yet incredibly refined. Crafted from supple lambskin.' },
+  { id: 2, name: 'The Rose Bucket', price: 2900, image_url: 'images/bag-02.jpg', model_image_url: 'images/model-02.png', inventory_count: 4, desc: 'A sculptural take on the classic bucket bag. Minimalist lines meet a rich rose hue, complete with a tonal leather interior and subtle silver hardware.' },
+  { id: 3, name: 'The Petal Shoulder', price: 1950, image_url: 'images/bag-03.jpg', model_image_url: 'images/model-03.png', inventory_count: 4, desc: 'Lightweight and elegant. The Petal Shoulder bag features a soft fabric body with leather trim, ideal for everyday effortless style.' },
+  { id: 4, name: 'The Dune Mini', price: 3999, image_url: 'images/bag-04.jpg', model_image_url: 'images/model-04.png', inventory_count: 4, desc: 'The crown jewel of the collection. The Dune Mini is distinguished by its striking gold-tone sculptural handle, contrasting beautifully with the soft beige leather.' },
+  { id: 5, name: 'The Cognac Croissant', price: 3200, image_url: 'images/bag-05.jpg', model_image_url: 'images/model-05.png', inventory_count: 4, desc: 'Rich, buttery leather folded into an organic crescent shape. The Cognac Croissant is spacious, versatile, and instantly iconic.' },
+  { id: 6, name: 'The Citrine Perle', price: 3600, image_url: 'images/bag-06.jpg', model_image_url: 'images/model-06.png', inventory_count: 4, desc: 'Woven leather meets artisanal beadwork. The Citrine Perle features a statement handle made of oversized resin pearls.' },
+  { id: 7, name: 'The Tartan Bead', price: 2400, image_url: 'images/bag-07.jpg', model_image_url: 'images/model-07.png', inventory_count: 4, desc: 'A playful yet sophisticated piece. Woven tartan fabric with a distinctive beaded handle and delicate chain strap.' },
+  { id: 8, name: 'The Onyx Crescent', price: 3100, image_url: 'images/bag-08.jpg', model_image_url: 'images/model-08.png', inventory_count: 4, desc: 'The ultimate little black bag. A sleek crescent shape crafted from crinkled patent leather for a subtle, mysterious shine.' },
+  { id: 9, name: 'The Azure Charm', price: 2800, image_url: 'images/bag-09.jpg', model_image_url: 'images/model-09.png', inventory_count: 4, desc: 'Soft azure suede elevated by contrasting burgundy leather trim and a signature knot detail.' },
+  { id: 10, name: 'The Blush Tartan', price: 2400, image_url: 'images/bag-10.jpg', model_image_url: 'images/model-10.png', inventory_count: 4, desc: 'A softer take on our beaded handle design. Features a muted blush and grey tartan weave.' },
+  { id: 11, name: 'The Graphite Tote', price: 1900, image_url: 'images/bag-11.jpg', model_image_url: 'images/model-11.png', inventory_count: 4, desc: 'Minimalist utility. A spacious tote crafted from durable technical fabric with structured leather handles and subtle stud details.' },
+  { id: 12, name: 'The Buttercream Shoulder', price: 2100, image_url: 'images/bag-12.jpg', model_image_url: 'images/model-12.png', inventory_count: 4, desc: 'Clean, simple, and elegant. A classic 90s-inspired shoulder bag silhouette in smooth buttercream leather.' },
+  { id: 13, name: 'The Noir Buckle', price: 3400, image_url: 'images/bag-13.jpg', model_image_url: 'images/model-13.png', inventory_count: 4, desc: 'Edgy yet elevated. A slouchy hobo shape grounded by an oversized, statement silver buckle.' },
+  { id: 14, name: 'The Ivory Whipstitch', price: 2950, image_url: 'images/bag-14.jpg', model_image_url: 'images/model-14.png', inventory_count: 4, desc: 'Textured ivory leather featuring beautiful artisanal whipstitch detailing along the edges.' },
+  { id: 15, name: 'The Midnight Frame', price: 2200, image_url: 'images/bag-15.jpg', model_image_url: 'images/model-15.png', inventory_count: 4, desc: 'A minimalist masterpiece. Sleek black technical fabric framed by a thin leather strap and metallic clasp.' }
 ];
 
 const state = {
@@ -72,7 +72,8 @@ function renderProducts() {
     return `
       <div class="product-card fade-up" style="transition-delay: ${i*0.05}s" data-id="${p.id}">
         <div class="product-card-img">
-          <img src="${p.image_url}" alt="${p.name}" loading="lazy"/>
+          <img src="${p.image_url}" alt="${p.name}" class="product-img-primary" loading="lazy"/>
+          <img src="${p.model_image_url}" alt="${p.name} — on model" class="product-img-model" loading="lazy"/>
           <button class="wishlist-btn ${isWished ? 'active' : ''}" data-wishlist-id="${p.id}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="${isWished?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
           </button>
@@ -246,58 +247,176 @@ els.cartToggle.addEventListener('click', () => toggleDrawer(els.cartDrawer, els.
 els.wishlistToggle.addEventListener('click', () => toggleDrawer(els.wishlistDrawer, els.wishlistOverlay, true));
 [els.wishlistClose, els.wishlistOverlay].forEach(el => el?.addEventListener('click', () => toggleDrawer(els.wishlistDrawer, els.wishlistOverlay, false)));
 
-// --- ANIMATIONS ---
-const observer = new IntersectionObserver(e => e.forEach(entry => {
-  if (entry.isIntersecting) {
-    entry.target.classList.add('visible');
-    if (entry.target.dataset.count) {
-      animateValue(entry.target, 0, parseInt(entry.target.dataset.count), 2000);
-      delete entry.target.dataset.count; // run once
-    }
-    observer.unobserve(entry.target);
-  }
-}), { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+// --- IMMERSIVE HERO LOAD SEQUENCE ---
+function initHero() {
+  const hero = $('#hero');
+  if (!hero) return;
 
-$$('.fade-up, .fade-in, .hero-stat-num').forEach(el => observer.observe(el));
+  // Trigger staggered load animation
+  requestAnimationFrame(() => {
+    setTimeout(() => hero.classList.add('loaded'), 100);
+  });
+
+  // Apply staggered delays to headline words
+  $$('.headline-word').forEach(word => {
+    const delay = word.dataset.delay || '0';
+    word.style.transitionDelay = `${delay}s`;
+  });
+}
+
+// --- PARALLAX & SCROLL EFFECTS ---
+let ticking = false;
+function onScroll() {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const scrollY = window.scrollY;
+    const vh = window.innerHeight;
+
+    // Hero parallax
+    const heroBg = $('#hero-bg');
+    const heroAccent = $('#hero-accent');
+    if (heroBg && scrollY < vh * 1.5) {
+      const parallaxOffset = scrollY * 0.4;
+      heroBg.style.transform = `translateY(${parallaxOffset}px)`;
+      // Fade out hero content as user scrolls
+      const heroContent = $('.hero-content');
+      if (heroContent) {
+        const opacity = Math.max(0, 1 - (scrollY / (vh * 0.6)));
+        heroContent.style.opacity = opacity;
+      }
+    }
+    if (heroAccent && scrollY < vh) {
+      heroAccent.style.transform = `translateY(${scrollY * -0.15}px)`;
+    }
+
+    // Navbar behavior
+    const navbar = $('#navbar');
+    navbar.classList.toggle('scrolled', scrollY > 50);
+    navbar.classList.toggle('hero-dark', scrollY < vh * 0.7);
+
+    // Back to top
+    $('#back-to-top')?.classList.toggle('visible', scrollY > 600);
+
+    // Scroll hint fade
+    const scrollHint = $('#hero-scroll');
+    if (scrollHint) {
+      scrollHint.style.opacity = Math.max(0, 1 - (scrollY / 200));
+    }
+
+    ticking = false;
+  });
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// --- INTERSECTION OBSERVER FOR REVEALS ---
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+
+      // Animate numbers
+      if (entry.target.dataset.count) {
+        animateValue(entry.target, 0, parseInt(entry.target.dataset.count), 2000);
+        delete entry.target.dataset.count;
+      }
+
+      // Stagger children with .stagger-item class
+      const staggerItems = entry.target.querySelectorAll('.stagger-item');
+      staggerItems.forEach((item, i) => {
+        setTimeout(() => item.classList.add('visible'), i * 100);
+      });
+
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.08,
+  rootMargin: '0px 0px -60px 0px'
+});
+
+// Observe all animatable elements
+function observeElements() {
+  $$('.fade-up, .fade-in, .section-reveal, .hero-stat-num').forEach(el => revealObserver.observe(el));
+}
 
 function animateValue(obj, start, end, duration) {
   let startTimestamp = null;
   const step = (timestamp) => {
     if (!startTimestamp) startTimestamp = timestamp;
     const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-    obj.innerHTML = Math.floor(progress * (end - start) + start);
+    const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+    obj.innerHTML = Math.floor(eased * (end - start) + start);
     if (progress < 1) window.requestAnimationFrame(step);
   };
   window.requestAnimationFrame(step);
 }
 
-// --- BACK TO TOP & SCROLL ---
-window.addEventListener('scroll', () => {
-  $('#navbar').classList.toggle('scrolled', window.scrollY > 50);
-  $('#back-to-top')?.classList.toggle('visible', window.scrollY > 600);
+// --- SMOOTH SECTION SCROLL ---
+$$('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 72;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
 });
+
+// --- BACK TO TOP ---
 $('#back-to-top')?.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
 // --- INIT ---
 renderProducts();
 renderCart();
 renderWishlist();
+initHero();
+observeElements();
+onScroll(); // Set initial state
 
-// --- CURSOR ---
+// --- CUSTOM CURSOR ---
 const dot = $('#cursor-dot');
 const ring = $('#cursor-ring');
-if (window.matchMedia("(pointer: fine)").matches) {
+if (window.matchMedia("(pointer: fine)").matches && dot && ring) {
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
   document.addEventListener('mousemove', e => {
-    dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    ring.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
   });
+
+  // Smooth follow for ring
+  function updateRing() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+    ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+    requestAnimationFrame(updateRing);
+  }
+  updateRing();
+
+  // Cursor effects on interactive elements
   $$('a, button, .product-card').forEach(el => {
-    el.addEventListener('mouseenter', () => ring.style.transform += ' scale(1.5)');
-    el.addEventListener('mouseleave', () => ring.style.transform += ' scale(1)');
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '60px';
+      ring.style.height = '60px';
+      ring.style.borderColor = 'rgba(255,255,255,0.5)';
+      dot.style.opacity = '0.3';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '40px';
+      ring.style.height = '40px';
+      ring.style.borderColor = '';
+      dot.style.opacity = '1';
+    });
   });
 } else {
-  dot.style.display = 'none';
-  ring.style.display = 'none';
+  if (dot) dot.style.display = 'none';
+  if (ring) ring.style.display = 'none';
 }
 
 // --- NEWSLETTER ---
@@ -306,3 +425,12 @@ $('#newsletter-form')?.addEventListener('submit', e => {
   showToast("Thank you for subscribing! Check your email soon.");
   $('#newsletter-email').value = '';
 });
+
+// --- IMAGE PRELOADER FOR HERO ---
+function preloadHeroImages() {
+  const heroImg = new Image();
+  heroImg.src = 'images/hero-model-1.png';
+  const accentImg = new Image();
+  accentImg.src = 'images/hero-model-2.png';
+}
+preloadHeroImages();

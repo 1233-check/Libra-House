@@ -71,42 +71,74 @@
   </nav>
 
   <!-- ============================================ -->
-  <!-- HERO SECTION -->
+  <!-- HERO SECTION — Immersive Editorial -->
   <!-- ============================================ -->
   <section id="hero" class="hero">
+    <!-- Full-bleed background image with parallax -->
+    <div class="hero-bg" id="hero-bg">
+      <img src="images/hero-model-1.png" alt="Libra House Editorial" class="hero-bg-img" />
+      <div class="hero-bg-overlay"></div>
+    </div>
+
+    <!-- Floating editorial accent image -->
+    <div class="hero-accent" id="hero-accent">
+      <img src="images/hero-model-2.png" alt="Libra House Close-up" class="hero-accent-img" />
+    </div>
+
+    <!-- Text content with reveal animations -->
     <div class="hero-content">
-      <div class="hero-label fade-up" data-delay="0.2">
+      <div class="hero-label" id="hero-label">
         <span class="hero-label-line"></span>
         <span>Spring / Summer 2026</span>
+        <span class="hero-label-line"></span>
       </div>
-      <h1 class="hero-headline">
-        <span class="headline-word fade-up" data-delay="0.4">Elegance</span>
-        <span class="headline-word fade-up italic" data-delay="0.6">in</span>
-        <span class="headline-word fade-up" data-delay="0.8">Scarcity.</span>
+
+      <h1 class="hero-headline" id="hero-headline">
+        <span class="headline-line">
+          <span class="headline-word" data-delay="0.2">Elegance</span>
+        </span>
+        <span class="headline-line">
+          <span class="headline-word italic" data-delay="0.5">in</span>
+          <span class="headline-word" data-delay="0.7">Scarcity.</span>
+        </span>
       </h1>
-      <p class="hero-sub fade-up" data-delay="1.0">Exclusive designs. Once they're gone, they're gone.<br>Each piece numbered. Each design, finite.</p>
-      <div class="hero-cta-row fade-up" data-delay="1.2">
-        <a href="#collection" class="btn btn-primary" id="hero-cta">Shop the Collection</a>
+
+      <p class="hero-sub" id="hero-sub">
+        15 exclusive designs. Only 4 of each. No restocks.<br>
+        <span class="hero-sub-highlight">Once it's gone, it's gone.</span>
+      </p>
+
+      <div class="hero-cta-row" id="hero-cta-row">
+        <a href="#collection" class="btn btn-primary btn-hero" id="hero-cta">
+          <span>Shop the Collection</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
         <a href="#about" class="btn btn-ghost">Our Story</a>
       </div>
 
-    </div>
-    <div class="hero-visual">
-      <div class="hero-img-wrapper parallax-img" data-speed="0.15">
-        <img src="images/bag-15.jpg" alt="Featured Libra House bag" class="hero-img" />
-        <div class="hero-img-overlay">
-          <span>The Midnight Frame</span>
-          <span>$490</span>
+      <!-- Social proof strip -->
+      <div class="hero-proof" id="hero-proof">
+        <div class="hero-proof-item">
+          <span class="proof-num">60</span>
+          <span class="proof-label">Total Pieces</span>
+        </div>
+        <div class="hero-proof-divider"></div>
+        <div class="hero-proof-item">
+          <span class="proof-num">15</span>
+          <span class="proof-label">Unique Designs</span>
+        </div>
+        <div class="hero-proof-divider"></div>
+        <div class="hero-proof-item">
+          <span class="proof-num">1</span>
+          <span class="proof-label">Collection</span>
         </div>
       </div>
-      <div class="hero-floating-tag">
-        <span class="tag-dot"></span>
-        <span>Exclusive Drop</span>
-      </div>
     </div>
-    <div class="hero-scroll-hint">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll-hint" id="hero-scroll">
+      <div class="scroll-line-animated"></div>
+      <span>Scroll to discover</span>
     </div>
   </section>
 
